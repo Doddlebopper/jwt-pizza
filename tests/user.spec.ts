@@ -6,30 +6,25 @@ test('updateUser', async ({ page }) => {
   const email = `user${Math.floor(Math.random() * 10000)}@jwt.com`;
   let loggedInUser: User = { id: '1', name: 'pizza diner', email: email, roles: [{ role: Role.Diner }] };
 
-  // Mock register endpoint
   await page.route('*/**/api/auth', async (route: Route) => {
     const method = route.request().method();
     if (method === 'POST') {
-      // Register
       const registerReq = route.request().postDataJSON();
       loggedInUser.name = registerReq.name;
       loggedInUser.email = registerReq.email;
       await route.fulfill({ json: { user: loggedInUser, token: 'test-token' } });
     } else if (method === 'PUT') {
-      // Login
       await route.fulfill({ json: { user: loggedInUser, token: 'test-token' } });
+
     } else if (method === 'DELETE') {
-      // Logout
       await route.fulfill({ json: { message: 'Logged out' } });
     }
   });
 
-  // Mock get user endpoint
   await page.route('*/**/api/user/me', async (route: Route) => {
     await route.fulfill({ json: loggedInUser });
   });
 
-  // Mock update user endpoint
   await page.route('*/**/api/user/*', async (route: Route) => {
     if (route.request().method() === 'PUT') {
       const updateReq = route.request().postDataJSON();
@@ -39,7 +34,6 @@ test('updateUser', async ({ page }) => {
     }
   });
 
-  // Mock orders endpoint
   await page.route('*/**/api/order', async (route: Route) => {
     await route.fulfill({ json: { dinerId: loggedInUser.id, orders: [], page: 1 } });
   });
