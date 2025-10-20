@@ -65,7 +65,7 @@ jobs:
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.CI_IAM_ROLE }}
+          role-to-assume: arn:aws:iam::405161739180:role/github-ci
 
       - name: Download dist artifact
         uses: actions/download-artifact@v4
