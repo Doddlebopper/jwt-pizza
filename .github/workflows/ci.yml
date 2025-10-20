@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -31,8 +32,8 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: |
-          npm run build
+        run: npm run build
+
       - name: Run tests
         run: |
           npx playwright install --with-deps chromium
@@ -52,28 +53,28 @@ jobs:
           path: dist/
 
   deploy:
-  needs: build
-  permissions:
-    id-token: write
-  runs-on: ubuntu-latest
-  env:
-    version: ${{needs.build.outputs.version}}
-  steps:
-    - name: Create OIDC token to AWS
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        audience: sts.amazonaws.com
-        aws-region: us-east-1
-        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.CI_IAM_ROLE }}
+    needs: build
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    env:
+      version: ${{ needs.build.outputs.version }}
+    steps:
+      - name: Create OIDC token to AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.CI_IAM_ROLE }}
 
-    - name: Download dist artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: package
-        path: dist/
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: package
+          path: dist/
 
-    - name: Push to AWS S3
-      run: |
-        echo Deploying $version
-        aws s3 cp dist s3://${{ secrets.APP_BUCKET }} --recursive
-        aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
+      - name: Push to AWS S3
+        run: |
+          echo Deploying $version
+          aws s3 cp dist s3://${{ secrets.APP_BUCKET }} --recursive
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
