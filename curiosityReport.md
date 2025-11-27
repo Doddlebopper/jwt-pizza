@@ -34,14 +34,19 @@ Cluster:
 Why choose Kubernetes?
 
 -One of the most important differences between docker containers and kubernetes containers is that docker continers will die out, and stay dead until you detect it and restart it. Similarly if a docker server dies out, the containers being run on said server will die.
+
 -Kubernetes provides an automatic self-recovery system wherein if a pod crashes, or dies out, it will be automatically restarted and prevent the need for any form of manual fix.
+
 -Kubernetes also provides the ability to handle traffic spikes by allowing pods to autoscale through Kubernetes' Horizontal Pod Autoscaler (HPA) which scales based off of your machines CPU and memory metrics.
 
 Why not choose Kubernetes?
 
 -Kubernetes is very powerful, but unfortunately it is quite complex.
+
 -Kubernetes was made for large applications and companies that expect large amounts of input and traffic, so Kubernetes isn't, and probably shouldn't be, used for smaller single-server applications.
+
 -Kubernetes requires a lot of heavy operational overhead that might become a burden instead of a benefit to companies that don't have dedicated QA/DevOps engineering support.
+
 -Running multiple pods, with load balancers, can change an overall total of 5-10$/month docker container based app, into a 80-150$/month app running through Kubernetes.
 
 Personal Takeaways
