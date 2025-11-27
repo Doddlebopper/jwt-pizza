@@ -48,4 +48,5 @@ Personal Takeaways
 
 -The company that I interned for over the summer was, in my opinion, not big enough to have to worry about the overall benefits of kubernetes for their applications. I am glad I was introduced to it, but I believe that the best way for me to learn more about kubernetes is
 possibly creating a personal project that implements a very basic form of containerization through kubernetes.
+
 -Kubernetes seems like a very important technology that I would need to learn more about if I were to choose to pursue a future in the Develeper Operations world, but mastering the concepts of docker containerization would be the most opportune for me starting out in junior level positions.
