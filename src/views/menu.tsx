@@ -19,7 +19,11 @@ export default function Menu() {
       setMenu(menu);
       const franchiseList = await pizzaService.getFranchises(0, 20, '*');
       const newStoreMap: { [key: string]: { store: Store; franchise: Franchise } } = {};
-      franchiseList.franchises.forEach((franchise) => franchise.stores.forEach((store) => (newStoreMap[store.id] = { store, franchise })));
+      franchiseList.franchises.forEach((franchise) => {
+        if (franchise.stores && Array.isArray(franchise.stores)) {
+          franchise.stores.forEach((store) => (newStoreMap[store.id] = { store, franchise }));
+        }
+      });
       setStoreMap(newStoreMap);
     })();
   }, []);
